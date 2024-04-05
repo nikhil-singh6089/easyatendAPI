@@ -7,6 +7,7 @@ cffi==1.16.0
 charset-normalizer==3.3.2
 click==8.1.7
 cryptography==42.0.5
+ecdsa==0.18.0
 exceptiongroup==1.2.0
 fastapi==0.110.1
 firebase-admin==6.5.0
@@ -36,8 +37,10 @@ pydantic_core==2.16.3
 PyJWT==2.8.0
 pyparsing==3.1.2
 python-dotenv==1.0.1
+python-jose==3.3.0
 requests==2.31.0
 rsa==4.9
+six==1.16.0
 sniffio==1.3.1
 starlette==0.37.2
 typing_extensions==4.10.0

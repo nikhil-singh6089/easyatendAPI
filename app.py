@@ -1,7 +1,53 @@
-from fastapi import FastAPI
+from typing import Optional
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
+from jose import JWTError, jwt
 import uvicorn
+import os
+import string
+from dotenv import load_dotenv
+import random
+from emailsender import send_email
+
+load_dotenv()
+
+sender_email = os.environ.get('SENDER_EMAIL')
+sender_password = os.environ.get('SENDER_PASSWORD')
+COMMON_TOKEN = os.environ.get('secret_key')
+
+subject = "Email Verification Code Easyattend"
+
+def generate_random_number():
+    return random.randint(10000, 99999)
+
+def email_sender(receiver_email, code):
+    #code = generate_random_number()
+    body = f"Your verification code is: {code}"
+    send_email(sender_email, receiver_email, sender_password, subject, body)
+
 
 test = FastAPI()
+
+class VerificationRequest(BaseModel):
+    token: str
+    email: str
+
+# Verification response model
+class VerificationResponse(BaseModel):
+    verification_code: Optional[str] = None
+
+@test.post("/verify", response_model=VerificationResponse)
+def verify_email(request: VerificationRequest):
+    if request.token != COMMON_TOKEN:
+        raise HTTPException(status_code=403, detail="Invalid token")
+
+    # Generate a random verification code
+    verification_code = ''.join(random.choices(string.digits, k=6))
+
+    # Send the verification code to the email
+    email_sender(request.email, verification_code)
+
+    return VerificationResponse(verification_code=verification_code)
 
 @test.get("/")
 def read_root():
