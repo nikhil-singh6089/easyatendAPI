@@ -42,6 +42,8 @@ def verify_email(request: VerificationRequest):
         raise HTTPException(status_code=403, detail="Invalid token")
     if request.email is None:
         raise HTTPException(status_code=400, detail="Email is required")
+    
+    print("Email: ", request.email)
 
     # Generate a random verification code
     verification_code = ''.join(random.choices(string.digits, k=6))
