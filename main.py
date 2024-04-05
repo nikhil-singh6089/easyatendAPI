@@ -40,6 +40,8 @@ class VerificationResponse(BaseModel):
 def verify_email(request: VerificationRequest):
     if request.token != COMMON_TOKEN:
         raise HTTPException(status_code=403, detail="Invalid token")
+    if request.email is None:
+        raise HTTPException(status_code=400, detail="Email is required")
 
     # Generate a random verification code
     verification_code = ''.join(random.choices(string.digits, k=6))
