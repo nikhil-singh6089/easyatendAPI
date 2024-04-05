@@ -26,7 +26,7 @@ def email_sender(receiver_email, code):
     send_email(sender_email, receiver_email, sender_password, subject, body)
 
 
-test = FastAPI()
+app = FastAPI()
 
 class VerificationRequest(BaseModel):
     token: str
@@ -36,7 +36,7 @@ class VerificationRequest(BaseModel):
 class VerificationResponse(BaseModel):
     verification_code: Optional[str] = None
 
-@test.post("/verify", response_model=VerificationResponse)
+@app.post("/verify", response_model=VerificationResponse)
 def verify_email(request: VerificationRequest):
     if request.token != COMMON_TOKEN:
         raise HTTPException(status_code=403, detail="Invalid token")
@@ -49,9 +49,9 @@ def verify_email(request: VerificationRequest):
 
     return VerificationResponse(verification_code=verification_code)
 
-@test.get("/")
+@app.get("/")
 def read_root():
     return {"Hello": "World"}
 
 if __name__ == "__main__":
-    uvicorn.run(test, host="127.0.0.1", port=8000)
+    uvicorn.run(app, host="127.0.0.1", port=8000)
