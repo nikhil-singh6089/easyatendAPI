@@ -1,4 +1,5 @@
 import smtplib
+from email.mime.text import MIMEText
 
 def send_email(sender_email, receiver_email, password, subject, body):
     """
@@ -15,12 +16,15 @@ def send_email(sender_email, receiver_email, password, subject, body):
         bool: True if the email was sent successfully, False otherwise.
     """
     try:
-        message = f"Subject: {subject}\n\n{body}"
+        msg = MIMEText(body)
+        msg['Subject'] = subject
+        msg['From'] = sender_email
+        msg['To'] = receiver_email
 
         server = smtplib.SMTP("smtp.office360.com", 587)
         server.starttls()
         server.login(sender_email, password)
-        server.sendmail(sender_email, receiver_email, message)
+        server.send_message(msg)
         print("Email sent successfully")
         return True
     except Exception as e:
