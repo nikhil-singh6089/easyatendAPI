@@ -1,0 +1,10 @@
+# Python
+*.pyc
+__pycache__/
+*.egg-info/
+dist/
+build/
+api/
+
+# Environment variables
+.env
