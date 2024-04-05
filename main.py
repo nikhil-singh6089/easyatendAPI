@@ -34,7 +34,7 @@ class VerificationRequest(BaseModel):
 
 # Verification response model
 class VerificationResponse(BaseModel):
-    verification_code: Optional[str] = None
+    verificationCode: Optional[str] = None
 
 @app.post("/verify", response_model=VerificationResponse)
 def verify_email(request: VerificationRequest):
@@ -46,12 +46,12 @@ def verify_email(request: VerificationRequest):
     print("Email: ", request.email)
 
     # Generate a random verification code
-    verification_code = ''.join(random.choices(string.digits, k=6))
+    verificationCode = ''.join(random.choices(string.digits, k=6))
 
     # Send the verification code to the email
-    email_sender(request.email, verification_code)
+    email_sender(request.email, verificationCode)
 
-    return VerificationResponse(verification_code=verification_code)
+    return VerificationResponse(verificationCode=verificationCode)
 
 @app.get("/")
 def read_root():
