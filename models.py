@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 from typing import Optional, List
 import uuid
+from models import AttendanceUserData 
 
 class ClassData(BaseModel):
     classId: str
@@ -16,7 +17,7 @@ class Attendance(BaseModel):
     userName : str
     className : str
     userId : str
-    studentAttendanceList : List[str] = []
+    studentAttendanceList : List[AttendanceUserData] = []
     classId : str
 
 class AttendanceUserData(BaseModel):

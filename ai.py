@@ -1,6 +1,7 @@
 #FINAL WORKING EXTRACTION AND VERIFICATION C0DE!
 
 import os
+from typing import List
 import cv2
 from deepface import DeepFace
 from retinaface import RetinaFace
@@ -86,7 +87,7 @@ def verify_extracted_faces(extracted_faces_dir, verification_image_paths, tolera
       verification_image_paths: A list of paths to images for verification.
       tolerance: The threshold for considering a face a match (default: 0.6).
   """
-  studentAttendanceData = []
+  studentAttendanceData : List[AttendanceUserData] = []
   # Process each verification image
   for verification_image_path in verification_image_paths:
     # Load the verification image

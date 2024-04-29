@@ -3,12 +3,13 @@ import firebase_admin
 import uvicorn
 import os
 import string
+from typing import List
 from dotenv import load_dotenv
 from firebase_admin import credentials
 from firebase_admin import db
 import random
 from emailsender import send_email
-from models import ClassData , VerificationRequest, VerificationResponse, Attendance
+from models import ClassData , VerificationRequest, VerificationResponse, AttendanceUserData, Attendance
 from firebase import buildUpBeforeVerification, deleteImagesInFolder, delete_all_folders
 from ai import verify_extracted_faces
 
@@ -79,7 +80,7 @@ def create_class(class_data: ClassData):
 
     current_directory = os.getcwd()
     attendance_classImageFaces_directory = os.path.join(current_directory, "DetectedFaces")
-    studentAttendanceData = []
+    studentAttendanceData : List[AttendanceUserData] = []
     
     verification_image_paths = buildUpBeforeVerification(classId, classImageUrl)
     studentAttendanceData = verify_extracted_faces(attendance_classImageFaces_directory, verification_image_paths)

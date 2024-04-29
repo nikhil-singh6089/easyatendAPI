@@ -9,13 +9,13 @@ from ai import save_extracted_faces
 
 load_dotenv()
 
-database_url = os.environ.get('DATABASE_URL')
+# database_url = os.environ.get('DATABASE_URL')
 
-# Initialize the Firebase Admin SDK
-cred = credentials.Certificate('easyattend.json')
-firebase_admin.initialize_app(cred, {
-    'databaseURL': database_url
-})
+# # Initialize the Firebase Admin SDK
+# cred = credentials.Certificate('easyattend.json')
+# firebase_admin.initialize_app(cred, {
+#     'databaseURL': database_url
+# })
 
 verification_image_paths = []
 
