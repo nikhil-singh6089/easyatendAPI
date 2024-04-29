@@ -8,3 +8,4 @@ api/
 
 # Environment variables
 .env
+*.json

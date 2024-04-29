@@ -21,7 +21,7 @@ def send_email(sender_email, receiver_email, password, subject, body):
         msg['From'] = sender_email
         msg['To'] = receiver_email
 
-        server = smtplib.SMTP("smtp.office360.com", 587)
+        server = smtplib.SMTP("smtp.office365.com", 587)
         server.starttls()
         server.login(sender_email, password)
         server.send_message(msg)
