@@ -1,9 +1,9 @@
 #FINAL WORKING EXTRACTION AND VERIFICATION C0DE!
 
 import os
-# import cv2
-# from deepface import DeepFace
-# from retinaface import RetinaFace
+import cv2
+from deepface import DeepFace
+from retinaface import RetinaFace
 from firebase_admin import db
 from models import AttendanceUserData
 
@@ -152,5 +152,5 @@ def getUserIdFromVerificationPath(verification_path):
 #   tolerance = 0.8  
 #   verify_extracted_faces(extracted_faces_dir, verification_image_paths, tolerance)
 
-name = getUserIdFromVerificationPath('/home/nikhil/Projects/easyattendAPI/ClassStudentFaces/20BCE10001/20BCE10001.jpg')
-print(name)
+# name = getUserIdFromVerificationPath('/home/nikhil/Projects/easyattendAPI/ClassStudentFaces/20BCE10001/20BCE10001.jpg')
+# print(name)

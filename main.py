@@ -9,7 +9,7 @@ from firebase_admin import db
 import random
 from emailsender import send_email
 from models import ClassData , VerificationRequest, VerificationResponse, Attendance
-from firebase import buildUpBeforeVerification
+from firebase import buildUpBeforeVerification, deleteImagesInFolder, delete_all_folders
 from ai import verify_extracted_faces
 
 load_dotenv()
@@ -36,6 +36,17 @@ def email_sender(receiver_email, code):
     #code = generate_random_number()
     body = f"Your verification code is: {code}"
     send_email(sender_email, receiver_email, sender_password, subject, body)
+
+def wrapUp():
+    # wrap up of a api request
+
+    current_directory = os.getcwd()
+    attendance_classImage_directory = os.path.join(current_directory, "ClassImage")
+    attendance_classImageFaces_directory = os.path.join(current_directory, "DetectedFaces")
+    attendance_classStudentFaces_directory = os.path.join(current_directory, "ClassStudentFaces")
+    deleteImagesInFolder(attendance_classImage_directory)
+    deleteImagesInFolder(attendance_classImageFaces_directory)
+    delete_all_folders(attendance_classStudentFaces_directory)
 
 
 app = FastAPI()
@@ -68,6 +79,7 @@ def create_class(class_data: ClassData):
 
     current_directory = os.getcwd()
     attendance_classImageFaces_directory = os.path.join(current_directory, "DetectedFaces")
+    studentAttendanceData = []
     
     verification_image_paths = buildUpBeforeVerification(classId, classImageUrl)
     studentAttendanceData = verify_extracted_faces(attendance_classImageFaces_directory, verification_image_paths)
@@ -80,12 +92,13 @@ def create_class(class_data: ClassData):
         userName=data["userName"],
         className=data["className"],
         userId=data["userId"],
-        studentAttendanceList=[],
+        studentAttendanceList=studentAttendanceData,
         classId=data["classId"]
     )
     print(new_attendance.attendanceId)  
     ref = db.reference(f'Attendance/{new_attendance.attendanceId}')
     ref.set(new_attendance.model_dump())
+    wrapUp()
     return {"message": "attendance updated successfully"}
 
 

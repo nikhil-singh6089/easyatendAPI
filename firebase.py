@@ -5,7 +5,7 @@ import requests
 import shutil
 from firebase_admin import db
 from dotenv import load_dotenv
-#from ai import save_extracted_faces
+from ai import save_extracted_faces
 
 load_dotenv()
 
@@ -169,7 +169,7 @@ def getClassStudents(classId):
         
         if studentData is None:
             print("No students found for the specified class.")
-            return False
+            return []
         else:
             # Convert the dictionary keys to a list
             classStudentIds = studentData.get('classStudents', [])
@@ -190,14 +190,14 @@ def buildUpBeforeVerification(classId,classImageUrl):
     current_directory = os.getcwd()
     attendance_classImageFaces_directory = os.path.join(current_directory, "DetectedFaces")
     imagePath = getClassImage(classImageUrl)
-    #save_extracted_faces(imagePath, attendance_classImageFaces_directory, "classImageFace_",1)
+    save_extracted_faces(imagePath, attendance_classImageFaces_directory, "classImageFace_",1)
     putStudentImageInFolder(classId)
     return verification_image_paths
 
 
     
-#getClassStudents("3b54b820-ebaa-468a-b9bc-b966448bf670")
-#buildUpBeforeVerification('76fe25c2-063e-4765-b30d-8817bcc2d253','https://firebasestorage.googleapis.com/v0/b/advnotesapp-c1f16.appspot.com/o/AIImages%2F2024-04-30%2F76fe25c2-063e-4765-b30d-8817bcc2d253?alt=media&token=1dd6529a-c043-4e7c-a4d0-797a5ff28f77')
+#getClassStudents('76fe25c2-063e-4765-b30d-8817bcc2d253') working 
+#buildUpBeforeVerification('76fe25c2-063e-4765-b30d-8817bcc2d253','https://firebasestorage.googleapis.com/v0/b/advnotesapp-c1f16.appspot.com/o/AIImages%2F2024-04-30%2F76fe25c2-063e-4765-b30d-8817bcc2d253?alt=media&token=1dd6529a-c043-4e7c-a4d0-797a5ff28f77') #working
 #getClassImage('https://firebasestorage.googleapis.com/v0/b/advnotesapp-c1f16.appspot.com/o/AIImages%2F2024-04-30%2F76fe25c2-063e-4765-b30d-8817bcc2d253?alt=media&token=1dd6529a-c043-4e7c-a4d0-797a5ff28f77')
 #folder_path = "/home/nikhil/Projects/easyattendAPI/DetectedFaces"
 #folder_path = "/home/nikhil/Projects/easyattendAPI/ClassStudentFaces"
@@ -205,4 +205,4 @@ def buildUpBeforeVerification(classId,classImageUrl):
 #delete_all_folders("/home/nikhil/Projects/easyattendAPI/ClassStudentFaces")
 #createStudentFolderAndImage('20BCE10001')
 #putStudentImageInFolder('76fe25c2-063e-4765-b30d-8817bcc2d253') #working
-print(verification_image_paths)
+#print(verification_image_paths)
